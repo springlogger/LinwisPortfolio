@@ -1,5 +1,7 @@
 # Linwis Portfolio
 
+<img width="1911" height="797" alt="image" src="https://github.com/user-attachments/assets/caf46be3-fdc6-48ea-bdc2-f86f5ce3c8fd" />
+
 Personal portfolio built with Next.js, React, Tailwind CSS, GSAP, and a custom WebAssembly software renderer.
 
 The hero section renders Suzanne through `LinwisEngine` in a `<canvas>`. The generated Emscripten files live in the app so the page can load the engine, its `.wasm` binary, and the preload package with model/texture assets.
