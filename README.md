@@ -6,6 +6,10 @@ Personal portfolio built with Next.js, React, Tailwind CSS, GSAP, and a custom W
 
 The hero section renders Suzanne through `LinwisEngine` in a `<canvas>`. The generated Emscripten files live in the app so the page can load the engine, its `.wasm` binary, and the preload package with model/texture assets.
 
+## Deploy
+
+https://linwis-portfolio.vercel.app/
+
 ## Stack
 
 - Next.js 16 App Router
