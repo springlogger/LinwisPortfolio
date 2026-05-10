@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+:root {
+  --bg:        #0a0b0a;
+  --bg-2:      #111312; /* приподнятая поверхность (карточки, секции) */
+  --bg-3:      #1a1d1b; /* ещё выше (hover, активное состояние, модалки) */
+  --border:    #232624; /* разделители, рамки */
+  --text-3:    #545955; /* третьестепенный (метки, плейсхолдеры, disabled) */
+  --text-2:    #a0a5a1; /* вторичный (описания, подписи) */
+  --text-1:    #ededed; /* основной текст (заголовки, важное) */
+  --accent:    #00ff88; /* главный акцентный (CTA, активное состояние, focus) */
+  --accent-2:  #00cc6a; /* для градиентов и hover-состояний акцента */
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-background-2: var(--bg-2);
+  --color-background-3: var(--bg-3);
+  --color-text: var(--text-1);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+} */
+
+body {
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: var(--font-sans);
+}
+
+.geistMono {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.hero-stage {
+  background:
+    linear-gradient(to bottom, rgba(10, 11, 10, 0.2), var(--bg) 88%),
+    repeating-linear-gradient(
+      to right,
+      rgba(237, 237, 237, 0.055) 0,
+      rgba(237, 237, 237, 0.055) 1px,
+      transparent 1px,
+      transparent 96px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(237, 237, 237, 0.045) 0,
+      rgba(237, 237, 237, 0.045) 1px,
+      transparent 1px,
+      transparent 96px
+    ),
+    var(--bg);
+}
+
+.hero-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 55%, rgba(0, 255, 136, 0.08) 55.1%, transparent 72%),
+    linear-gradient(to bottom, transparent 0 52%, rgba(237, 237, 237, 0.08) 52.1%, transparent 52.4%);
+  opacity: 0.75;
+}
+
+.hero-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 7px,
+      rgba(237, 237, 237, 0.025) 8px
+    );
+  mix-blend-mode: screen;
+}

@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Linwis Portfolio
 
-## Getting Started
+Personal portfolio built with Next.js, React, Tailwind CSS, GSAP, and a custom WebAssembly software renderer.
 
-First, run the development server:
+The hero section renders Suzanne through `LinwisEngine` in a `<canvas>`. The generated Emscripten files live in the app so the page can load the engine, its `.wasm` binary, and the preload package with model/texture assets.
+
+## Stack
+
+- Next.js 16 App Router
+- React 19
+- Tailwind CSS 4
+- GSAP for text interaction
+- Emscripten-generated WASM renderer
+
+## Engine Files
+
+The web build expects these generated assets:
+
+```text
+src/shared/lib/linwis-engine/linwis_engine.js
+src/shared/lib/linwis-engine/linwis_engine.d.ts
+public/wasm/linwis_engine.wasm
+public/wasm/linwis_engine.data
+```
+
+`linwis_engine.data` currently preloads:
+
+```text
+/assets/suzane.obj
+/assets/test_texture.png
+```
+
+After regenerating `linwis_engine.js`, check that Turbopack does not see a literal `new URL('linwis_engine.wasm', import.meta.url)` fallback. The wrapper resolves runtime files through `locateFile`:
+
+```text
+/wasm/linwis_engine.wasm
+/wasm/linwis_engine.data
+```
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Useful checks:
 
-## Learn More
+```bash
+npm run lint
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- The canvas uses pointer events to pass mouse/touch control to the engine.
+- `touch-none` is required on the canvas so drag gestures are sent to the renderer instead of scrolling the page.
+- The hydration warning with `cz-shortcut-listen="true"` comes from a browser extension, not the app.

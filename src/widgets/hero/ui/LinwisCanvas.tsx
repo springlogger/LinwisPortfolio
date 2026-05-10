@@ -1,0 +1,140 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import type { PointerEvent } from "react";
+import {
+  createLinwisEngineRenderer,
+  getLinwisCanvasViewport,
+} from "@/src/shared/lib/linwis-engine/createLinwisEngineRenderer";
+import { LINWIS_ENGINE_MAX_DELTA_SECONDS } from "@/src/shared/lib/linwis-engine/constants";
+import type { LinwisEngineRenderer } from "@/src/shared/lib/linwis-engine/createLinwisEngineRenderer";
+
+function getCanvasPoint(event: PointerEvent<HTMLCanvasElement>) {
+  const rect = event.currentTarget.getBoundingClientRect();
+
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  };
+}
+
+export function LinwisHeroCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rendererRef = useRef<LinwisEngineRenderer | null>(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    let disposed = false;
+    let raf = 0;
+
+    async function start() {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      try {
+        const nextRenderer = await createLinwisEngineRenderer({
+          canvas,
+          viewport: getLinwisCanvasViewport(canvas),
+        });
+
+        if (disposed) {
+          nextRenderer.dispose();
+          return;
+        }
+
+        rendererRef.current = nextRenderer;
+        setReady(true);
+
+        let lastTime = performance.now();
+
+        function frame(now: number) {
+          const renderer = rendererRef.current;
+          if (disposed || !renderer) {
+            return;
+          }
+
+          const deltaSeconds = Math.min(
+            (now - lastTime) / 1000,
+            LINWIS_ENGINE_MAX_DELTA_SECONDS,
+          );
+          lastTime = now;
+
+          renderer.render(deltaSeconds);
+          raf = requestAnimationFrame(frame);
+        }
+
+        raf = requestAnimationFrame(frame);
+      } catch (error) {
+        if (!disposed) {
+          console.error("Failed to start Linwis engine.", error);
+        }
+      }
+    }
+
+    start();
+
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(raf);
+      rendererRef.current?.dispose();
+      rendererRef.current = null;
+    };
+  }, []);
+
+  function handlePointerDown(event: PointerEvent<HTMLCanvasElement>) {
+    const renderer = rendererRef.current;
+    if (!renderer) {
+      return;
+    }
+
+    const point = getCanvasPoint(event);
+
+    event.currentTarget.setPointerCapture(event.pointerId);
+    renderer.lwPointerDown(point.x, point.y);
+  }
+
+  function handlePointerMove(event: PointerEvent<HTMLCanvasElement>) {
+    const renderer = rendererRef.current;
+    if (!renderer) {
+      return;
+    }
+
+    const point = getCanvasPoint(event);
+    renderer.lwPointerMove(point.x, point.y);
+  }
+
+  function handlePointerUp(event: PointerEvent<HTMLCanvasElement>) {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    rendererRef.current?.lwPointerUp();
+  }
+
+  function handlePointerCancel(event: PointerEvent<HTMLCanvasElement>) {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+    rendererRef.current?.lwPointerUp();
+  }
+
+  return (
+    <div className="relative h-full w-full overflow-hidden rounded-lg bg-background">
+      <canvas
+        ref={canvasRef}
+        className="relative z-0 block h-full w-full cursor-grab touch-none active:cursor-grabbing"
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
+      />
+
+      <div className="pointer-events-none absolute inset-0 z-10 bg-background/30" />
+
+      <div className="pointer-events-none absolute bottom-0 right-4 z-20 text-text/40 geistMono">
+        <p>Rendered without WebGL or Three.js</p>
+      </div>
+
+      {!ready && <div className="absolute inset-0 z-30 bg-background" />}
+    </div>
+  );
+}
