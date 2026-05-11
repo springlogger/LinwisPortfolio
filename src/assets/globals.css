@@ -38,48 +38,4 @@ body {
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.hero-stage {
-  background:
-    linear-gradient(to bottom, rgba(10, 11, 10, 0.2), var(--bg) 88%),
-    repeating-linear-gradient(
-      to right,
-      rgba(237, 237, 237, 0.055) 0,
-      rgba(237, 237, 237, 0.055) 1px,
-      transparent 1px,
-      transparent 96px
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      rgba(237, 237, 237, 0.045) 0,
-      rgba(237, 237, 237, 0.045) 1px,
-      transparent 1px,
-      transparent 96px
-    ),
-    var(--bg);
-}
 
-.hero-stage::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(115deg, transparent 0 55%, rgba(0, 255, 136, 0.08) 55.1%, transparent 72%),
-    linear-gradient(to bottom, transparent 0 52%, rgba(237, 237, 237, 0.08) 52.1%, transparent 52.4%);
-  opacity: 0.75;
-}
-
-.hero-stage::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 7px,
-      rgba(237, 237, 237, 0.025) 8px
-    );
-  mix-blend-mode: screen;
-}

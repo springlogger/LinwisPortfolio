@@ -18,9 +18,9 @@ type SplitTubeTextProps = {
 export function SplitTubeText({
   text,
   className = '',
-  duration = 0.6,
-  charStagger = 0.08,
-  spins = 2,
+  duration = 0.5,
+  charStagger = 0.03,
+  spins = 1,
 }: SplitTubeTextProps) {
   const rootRef = useRef<HTMLSpanElement | null>(null);
 
@@ -43,6 +43,7 @@ export function SplitTubeText({
         backfaceVisibility: 'hidden',
         transformOrigin,
         rotationX: 0,
+        force3D: true,
       });
 
       const timeline = gsap.timeline({ paused: true });
@@ -50,8 +51,9 @@ export function SplitTubeText({
         rotationX: 360 * spins,
         stagger: charStagger,
         duration,
-        ease: 'none',
+        ease: 'power3.inOut',
         transformOrigin,
+        force3D: true,
       });
 
       const handleEnter = () => timeline.play();

@@ -26,15 +26,60 @@ export function LinwisHeroCanvas() {
   useEffect(() => {
     let disposed = false;
     let raf = 0;
+    let isIntersecting = true;
+    let lastTime = performance.now();
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    function frame(now: number) {
+      const renderer = rendererRef.current;
+      if (disposed || !renderer) {
+        return;
+      }
+
+      // Stop the render loop if canvas is out of view
+      if (!isIntersecting) {
+        raf = 0;
+        return;
+      }
+
+      const deltaSeconds = Math.min(
+        (now - lastTime) / 1000,
+        LINWIS_ENGINE_MAX_DELTA_SECONDS,
+      );
+      lastTime = now;
+
+      renderer.render(deltaSeconds);
+      raf = requestAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        isIntersecting = entry.isIntersecting;
+        if (isIntersecting && rendererRef.current) {
+          // Reset time when returning to view to prevent huge delta jump
+          lastTime = performance.now();
+          if (!raf) {
+            raf = requestAnimationFrame(frame);
+          }
+        }
+      });
+    }, { threshold: 0 });
+
+    observer.observe(canvas);
 
     async function start() {
-      const canvas = canvasRef.current;
       if (!canvas) return;
-
       try {
+        // Уменьшаем разрешение рендера в 2 раза для сильного буста производительности (Software Rasterizer очень зависит от количества пикселей)
+        const baseViewport = getLinwisCanvasViewport(canvas);
         const nextRenderer = await createLinwisEngineRenderer({
           canvas,
-          viewport: getLinwisCanvasViewport(canvas),
+          viewport: {
+            width: Math.max(1, Math.round(baseViewport.width * 0.5)),
+            height: Math.max(1, Math.round(baseViewport.height * 0.5))
+          },
         });
 
         if (disposed) {
@@ -45,25 +90,10 @@ export function LinwisHeroCanvas() {
         rendererRef.current = nextRenderer;
         setReady(true);
 
-        let lastTime = performance.now();
-
-        function frame(now: number) {
-          const renderer = rendererRef.current;
-          if (disposed || !renderer) {
-            return;
-          }
-
-          const deltaSeconds = Math.min(
-            (now - lastTime) / 1000,
-            LINWIS_ENGINE_MAX_DELTA_SECONDS,
-          );
-          lastTime = now;
-
-          renderer.render(deltaSeconds);
+        lastTime = performance.now();
+        if (isIntersecting) {
           raf = requestAnimationFrame(frame);
         }
-
-        raf = requestAnimationFrame(frame);
       } catch (error) {
         if (!disposed) {
           console.error("Failed to start Linwis engine.", error);
@@ -75,7 +105,8 @@ export function LinwisHeroCanvas() {
 
     return () => {
       disposed = true;
-      cancelAnimationFrame(raf);
+      observer.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       rendererRef.current?.dispose();
       rendererRef.current = null;
     };
@@ -131,7 +162,7 @@ export function LinwisHeroCanvas() {
       <div className="pointer-events-none absolute inset-0 z-10 bg-background/30" />
 
       <div className="pointer-events-none absolute bottom-0 right-4 z-20 text-text/40 geistMono">
-        <p>Rendered without WebGL or Three.js</p>
+        <p>Rendered without Three.js, WebGL or OpenGL</p>
       </div>
 
       {!ready && <div className="absolute inset-0 z-30 bg-background" />}
