@@ -1,22 +1,57 @@
 # Linwis Portfolio
 
-<img width="1911" height="797" alt="image" src="https://github.com/user-attachments/assets/caf46be3-fdc6-48ea-bdc2-f86f5ce3c8fd" />
+<img width="1911" height="797" alt="Linwis Portfolio preview" src="https://github.com/user-attachments/assets/caf46be3-fdc6-48ea-bdc2-f86f5ce3c8fd" />
 
-Personal portfolio built with Next.js, React, Tailwind CSS, GSAP, and a custom WebAssembly software renderer.
+Personal frontend portfolio built with Next.js, React, Tailwind CSS, GSAP, Lenis, and a custom WebAssembly software renderer.
 
-The hero section renders Suzanne through `LinwisEngine` in a `<canvas>`. The generated Emscripten files live in the app so the page can load the engine, its `.wasm` binary, and the preload package with model/texture assets.
+The site is designed as a full-screen scroll experience: stacked panels introduce the hero, about, skills, projects, and contact sections. The hero renders Suzanne through `LinwisEngine` inside a `<canvas>`, while the projects section uses horizontal GSAP choreography with responsive cards and modal details.
 
-## Deploy
+## Live
 
 https://linwis-portfolio.vercel.app/
+
+## Highlights
+
+- Custom WASM renderer in the hero, generated from `LinwisEngine`.
+- Sticky full-screen panel flow with GSAP ScrollTrigger.
+- Smooth scroll behavior with Lenis.
+- Responsive project carousel with image previews and detail modals.
+- Resume downloads from `public`.
+- Portfolio content split into widget-level data and UI modules.
+
+## Featured Projects
+
+- `LinwisEngine` - C++17 software rasterizer rendered through Win32 and ported into the portfolio hero via WebAssembly.
+- `LinwisAd Playable` - mobile 3D merge tower-defense playable built with raw Three.js and custom Web Audio.
+- `Linwis Portfolio` - this Next.js 16 portfolio with GSAP motion, WASM rendering, responsive cards, and downloadable resume assets.
+- `TurbinoCoffee` - scroll-driven coffee landing page with React Three Fiber and GSAP.
 
 ## Stack
 
 - Next.js 16 App Router
 - React 19
+- TypeScript
 - Tailwind CSS 4
-- GSAP for text interaction
-- Emscripten-generated WASM renderer
+- GSAP and `@gsap/react`
+- Lenis
+- OGL
+- Geist fonts
+- Emscripten-generated WebAssembly renderer
+
+## Project Structure
+
+```text
+src/app/                         App Router entrypoints
+src/assets/                      Global styles, favicon, logo
+src/shared/lib/                  Shared runtime helpers and engine loader
+src/shared/ui/                   Reusable UI primitives
+src/widgets/hero/                Hero canvas and intro section
+src/widgets/about/               About section
+src/widgets/Skills/              Skills data and UI
+src/widgets/Projects/            Project data, cards, carousel, and modal
+src/widgets/Contact/             Contact and resume links
+public/                          Static images, resume files, and WASM assets
+```
 
 ## Engine Files
 
@@ -72,6 +107,8 @@ npm run build
 
 ## Notes
 
-- The canvas uses pointer events to pass mouse/touch control to the engine.
+- The hero canvas uses pointer events to pass mouse and touch control to the engine.
 - `touch-none` is required on the canvas so drag gestures are sent to the renderer instead of scrolling the page.
-- The hydration warning with `cz-shortcut-listen="true"` comes from a browser extension, not the app.
+- Project images live in `public` and are referenced by root-relative paths like `/LinwisEngine.png`.
+- Resume files are served from `public/Frontend_Developer_Resume_Linwis.pdf` and `public/Frontend_Developer_Resume_Linwis.docx`.
+- A hydration warning containing `cz-shortcut-listen="true"` usually comes from a browser extension, not the app.

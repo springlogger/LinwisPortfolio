@@ -127,11 +127,14 @@ export function HeroGridCanvas() {
     window.addEventListener('scroll', onScroll);
 
     function resize() {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      program.uniforms.uResolution.value = [window.innerWidth, window.innerHeight];
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      renderer.setSize(rect.width, rect.height);
+      program.uniforms.uResolution.value = [rect.width, rect.height];
     }
     window.addEventListener('resize', resize, false);
-    resize();
+    // Add small delay for initial mount to ensure container is sized
+    setTimeout(resize, 0);
 
     let reqId: number;
     function update(t: number) {

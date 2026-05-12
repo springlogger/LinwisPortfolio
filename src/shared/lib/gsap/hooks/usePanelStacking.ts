@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/src/shared/lib/gsap";
-import React from "react";
+import type React from "react";
 
 export const usePanelStacking = (containerRef: React.RefObject<HTMLElement | null>) => {
   useGSAP(() => {
