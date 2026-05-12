@@ -28,7 +28,7 @@ export const AboutSection = () => {
   }, { scope: containerRef });
 
   return (
-    <section ref={containerRef} className='h-dvh flex flex-col justify-center items-center gap-12 lg:gap-20'>
+    <section ref={containerRef} className='h-svh flex flex-col justify-center items-center gap-12 lg:gap-20'>
       <header className="about-reveal">
         <h2 className='text-2xl sm:text-3xl md:text-4xl font-bold tracking-[0.3em] sm:tracking-[0.5em] md:tracking-[1em] cursor-default text-center px-4'>
           ABOUT ME

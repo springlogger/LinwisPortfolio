@@ -19,7 +19,7 @@ https://linwis-portfolio.vercel.app/
 - Full-screen animated menu overlay with section links, social links, and resume downloads.
 - Responsive project cards with `Details`, `Source`, and `Try` actions.
 - Project details modal rendered through a portal with background scroll/input locking.
-- Mobile viewport handling with `dvh` and iPhone Safari resize safeguards.
+- Mobile viewport handling with stable `svh` sections and iPhone Safari resize safeguards.
 - Widget-level architecture for sections, project data, header state, and overlay UI.
 
 ## Featured Projects
@@ -61,7 +61,7 @@ public/                          Static images, resume files, and WASM assets
 
 ## Scroll And Mobile Notes
 
-- Main sections use `dvh` instead of `svh` so iPhone Safari does not leave a blank strip when the browser chrome collapses.
+- Main sections use `svh` so iPhone Safari browser chrome changes do not resize the section layout during scroll.
 - Global section snap was removed from the main page flow because it fought with mobile Safari, sticky panels, and native touch scrolling.
 - Project snap remains inside `ProjectsSection`: desktop uses GSAP snap for the horizontal scroll scene, mobile uses native `snap-x`.
 - ScrollTrigger refreshes are guarded on touch devices so Safari address-bar height changes do not make the page jump.

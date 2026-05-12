@@ -17,14 +17,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index, totalP
     <div className="h-full w-screen shrink-0 snap-center flex flex-col items-center justify-center px-4 pt-2 pb-12 sm:px-8 sm:pt-4 sm:pb-14 md:px-12 md:pt-4 md:pb-12 lg:px-24 lg:pb-16 relative">
       <div className="w-full max-w-6xl h-full max-h-full lg:max-h-[68svh] bg-background-2/60 backdrop-blur-md border border-text/10 rounded-3xl flex flex-col lg:flex-row p-5 sm:p-8 lg:p-10 gap-6 lg:gap-8 shadow-2xl">
         
-        <div className="flex-1 min-h-[25svh] lg:min-h-0 bg-background-3/50 rounded-2xl border border-text/5 flex flex-col items-center justify-center relative overflow-hidden group">
+        <div className="w-full shrink-0 aspect-[16/10] max-h-56 sm:max-h-64 md:max-h-72 lg:aspect-auto lg:max-h-none lg:flex-1 lg:min-h-0 bg-background-3/50 rounded-2xl border border-text/5 flex flex-col items-center justify-center relative overflow-hidden group">
           <div className="absolute inset-0 bg-linear-to-tr from-transparent to-text/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none" />
           {project.image ? (
             <Image 
               src={project.image} 
               alt={project.title} 
               fill 
-              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              className="object-cover transition-transform duration-700 lg:group-hover:scale-105"
               sizes="(max-width: 1024px) 100vw, 50vw"
               loading="eager"
             />

@@ -48,6 +48,16 @@ body {
   }
 }
 
+@supports not (height: 100svh) {
+  .h-svh {
+    height: 100vh;
+  }
+
+  .min-h-svh {
+    min-height: 100vh;
+  }
+}
+
 .site-menu-overlay {
   animation: site-menu-slide-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }

@@ -96,7 +96,7 @@ export const ProjectsSection = () => {
 
   return (
     <>
-      <section className='h-dvh w-full relative flex flex-col overflow-hidden'>
+      <section className='h-svh w-full relative flex flex-col overflow-hidden'>
         <div className="shrink-0 px-6 pt-6 pb-2 md:px-12 md:pt-10 md:pb-4 pointer-events-none">
           <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-[0.2em] md:tracking-[0.5em] text-text/10">SELECTED WORK</h2>
         </div>

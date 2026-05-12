@@ -8,11 +8,13 @@ export const usePanelStacking = (containerRef: React.RefObject<HTMLElement | nul
     panels.forEach((panel, i) => {
       // Don't animate the last panel
       if (i === panels.length - 1) return;
+      if (panel.dataset.stackStatic === "true") return;
       
       const inner = panel.querySelector('.panel-inner');
       const nextPanel = panels[i + 1];
       
       if (!inner || !nextPanel) return;
+      if (nextPanel.dataset.stackStatic === "true") return;
 
       gsap.fromTo(inner, 
         { 
