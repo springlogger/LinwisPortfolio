@@ -58,7 +58,7 @@ export const SkillsSection = () => {
   }, { scope: stageRef });
 
   return (
-    <section ref={stageRef} className='h-svh w-full flex flex-col justify-center px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto'>
+    <section ref={stageRef} className='h-dvh w-full flex flex-col justify-center px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto'>
       <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-[0.2em] md:tracking-[0.5em] text-text/10 mb-16 lg:mb-24">
         TECH STACK
       </h2>

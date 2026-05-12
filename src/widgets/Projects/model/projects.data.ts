@@ -17,6 +17,8 @@ export const DUMMY_PROJECTS: Project[] = [
     title: "LinwisAd Playable",
     desc: "A fully playable 3D merge tower-defense game built with raw Three.js and packed into a lightweight single-file ad experience with custom Web Audio.",
     tech: ["Three.js", "Vite", "Web Audio", "Mobile UI"],
+    github: "https://github.com/springlogger/LinwisMerge-PlayableAd-",
+    deploy: "https://linwis-merge-playable-ad.vercel.app/",
     image: "/LinwisAd.jpg",
     details: [
       "Implemented 3D merge gameplay on a 3x3 board with drag-and-drop, raycasting, tower upgrades, projectile spawning, target selection, and collision handling.",

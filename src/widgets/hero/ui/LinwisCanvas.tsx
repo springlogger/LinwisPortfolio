@@ -162,7 +162,7 @@ export function LinwisHeroCanvas() {
       <div className="pointer-events-none absolute inset-0 z-10 bg-background/30" />
 
       <div className="pointer-events-none absolute bottom-0 right-4 z-20 text-text/40 geistMono">
-        <p>Rendered without Three.js, WebGL or OpenGL</p>
+        <p className="ml-2">Rendered without Three.js, WebGL or OpenGL</p>
       </div>
 
       {!ready && <div className="absolute inset-0 z-30 bg-background" />}

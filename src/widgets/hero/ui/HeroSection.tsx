@@ -5,12 +5,12 @@ import { HeroGridCanvas } from "./HeroGridCanvas";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-svh w-full overflow-hidden bg-background" id="hero">
+    <section className="relative min-h-dvh w-full overflow-hidden bg-background" id="hero">
       
       {/* 3D Raymarched Grid Layer */}
       <HeroGridCanvas />
 
-      <main className="relative z-10 grid min-h-svh w-full grid-cols-1 items-center gap-6 lg:gap-10 px-6 pb-10 pt-20 lg:pt-24 sm:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.78fr)] lg:px-16">
+      <main className="relative z-10 grid min-h-dvh w-full grid-cols-1 items-center gap-6 lg:gap-10 px-6 pb-10 pt-28 sm:pt-30 lg:pt-24 sm:px-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.78fr)] lg:px-16">
         <div className="max-w-3xl">
           <p className="mb-5 geistMono text-xs uppercase text-text/50 ">
             Software rasterizer / frontend systems

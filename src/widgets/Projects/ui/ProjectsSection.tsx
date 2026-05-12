@@ -53,15 +53,32 @@ export const ProjectsSection = () => {
   }, []);
 
   useEffect(() => {
+    const isModalOpen = Boolean(selectedProject);
+    const siteShell = document.getElementById("site-shell");
+
+    document.documentElement.toggleAttribute("data-project-modal-open", isModalOpen);
+    window.dispatchEvent(new CustomEvent("project-modal-toggle", { detail: { open: isModalOpen } }));
+
     if (selectedProject) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      siteShell?.setAttribute("inert", "");
+      siteShell?.setAttribute("aria-hidden", "true");
       lenis?.stop();
     } else {
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      siteShell?.removeAttribute("inert");
+      siteShell?.removeAttribute("aria-hidden");
       lenis?.start();
     }
     return () => {
+      document.documentElement.removeAttribute("data-project-modal-open");
+      window.dispatchEvent(new CustomEvent("project-modal-toggle", { detail: { open: false } }));
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      siteShell?.removeAttribute("inert");
+      siteShell?.removeAttribute("aria-hidden");
       lenis?.start();
     };
   }, [selectedProject, lenis]);
@@ -79,8 +96,8 @@ export const ProjectsSection = () => {
 
   return (
     <>
-      <section className='h-svh w-full relative flex flex-col justify-center overflow-hidden'>
-        <div className="absolute top-6 left-6 md:top-12 md:left-12 z-20 pointer-events-none">
+      <section className='h-dvh w-full relative flex flex-col overflow-hidden'>
+        <div className="shrink-0 px-6 pt-6 pb-2 md:px-12 md:pt-10 md:pb-4 pointer-events-none">
           <h2 className="text-xl sm:text-2xl md:text-4xl font-bold tracking-[0.2em] md:tracking-[0.5em] text-text/10">SELECTED WORK</h2>
         </div>
 
@@ -89,7 +106,7 @@ export const ProjectsSection = () => {
           ref={scrollWrapperRef}
           onScroll={handleScroll}
           data-lenis-prevent="true"
-          className="w-full h-full overflow-x-auto md:overflow-visible snap-x snap-mandatory flex md:block [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x touch-pan-y"
+          className="w-full flex-1 min-h-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory flex md:block [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] touch-pan-x touch-pan-y"
         >
           <div 
             ref={containerRef}
@@ -101,7 +118,7 @@ export const ProjectsSection = () => {
               style={{ width: `${introWidthVW}vw` }}
             >
               <div className="flex flex-col items-center gap-6 opacity-30 mt-20">
-                <span className="geistMono text-sm tracking-[0.5em] uppercase text-text text-center w-full max-w-[200px]">Scroll to explore</span>
+                <span className="geistMono text-sm tracking-[0.5em] uppercase text-text text-center w-full max-w-50">Scroll to explore</span>
                 <div className="w-px h-32 bg-linear-to-b from-text to-transparent animate-pulse" />
               </div>
             </div>
