@@ -1,6 +1,6 @@
 # Linwis Portfolio
 
-<img width="1911" height="797" alt="Linwis Portfolio preview" src="https://github.com/user-attachments/assets/caf46be3-fdc6-48ea-bdc2-f86f5ce3c8fd" />
+<img width="1898" height="862" alt="image" src="https://github.com/user-attachments/assets/1f50c70f-b91b-4df9-acb1-1828b784cdd1" />
 
 Personal frontend portfolio built with Next.js, React, Tailwind CSS, GSAP, Lenis, and a custom WebAssembly software renderer.
 
