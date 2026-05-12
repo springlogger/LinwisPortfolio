@@ -61,7 +61,9 @@ public/                          Static images, resume files, and WASM assets
 
 ## Scroll And Mobile Notes
 
-- Main sections use `svh` so iPhone Safari browser chrome changes do not resize the section layout during scroll.
+- Main sections use `svh` (Short Viewport Height) so iPhone Safari browser chrome changes do not resize the section layout during scroll.
+- A CSS fallback for `svh` is provided in `globals.css` for environments without modern viewport unit support.
+- Sticky panel transitions utilize a custom GSAP hook. Panels can opt-out of the stacking animation by setting `data-stack-static="true"` (applied to the Projects section to preserve visibility during its internal horizontal scroll).
 - Global section snap was removed from the main page flow because it fought with mobile Safari, sticky panels, and native touch scrolling.
 - Project snap remains inside `ProjectsSection`: desktop uses GSAP snap for the horizontal scroll scene, mobile uses native `snap-x`.
 - ScrollTrigger refreshes are guarded on touch devices so Safari address-bar height changes do not make the page jump.
